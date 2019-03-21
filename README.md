@@ -15,7 +15,7 @@
  -  docker container run hello-world
  -  docker container run debian bash --version
  -  sudo docker container ps -a   (exibe os container baixados)
- -  docker container run --rm debian  bash --version (executar e remove um container do ps -a)
+ -  docker container run --rm debian  bash --version (executar e remove um container)
  -  docker container run -it debian bash  (carregar um novo container debian e exibe o terminal de acesso ao container)
  
  ## COLOCANDO NOME PARA O CONTAINER
