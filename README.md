@@ -147,15 +147,55 @@ produzido através de um processo chamado build.
 -  **sudo docker image rm ID (sintaxe nova):** remove uma imagem docker
 -  **sudo docker rm ID:** remove um container pelo ID
 
+
    
-### HElP
+### HELP
 
 - **sudo docker help:**  mostra os comandos para docker 
 - **sudo docker image help**  mostra os comando para image
 - **sudo docker volume help**  mostra o camando para volume.
 
-   
- ## LINKS UTEIS
+### Comandos basicos para manipular imagens
+
+- **docker image pull ID/TAG:** Baixa a imagem solicitada, este comando pode ser executado implicitamente, quando o docker
+precisa de uma imagem para outra operação e não consegue localiza-la no cache local.
+- **docker image ls:** Lista todas as imagens já baixadas, é possível ainda usar a sintaxe antiga: docker images
+- **docker image rm ID_HASH/TAG:** Remove uma imagem do cache local, é possível ainda usar a sintaxe antiga: docker rmi ID/TAG - - **docker image inspect ID_HASH/TAG:** Extrai diversas informações utilizando um formato JSON da imagem indicada.
+- **docker image ID_HASH/TAG <source> ID_HASH/TAG** Cria uma nova tag baseada em uma tag anterior ou hash.
+- **docker image build -t ID_HASH/TAG:** Permite a criação de uma nova imagem
+- **docker image push ID_HASH/TAG:** Permite o envio de uma imagem ou tag local para um registry.
+      
+### Construindo imagem com Dockerfile: Instruções de preparação.
+
+      FROM:  Especifica a imagem base a ser utilizada pela nova imagem.
+      
+      LABEL: Especifica vários metadados para a imagem como o mantenedor. A especificação do mantenedor
+      era feita usando a instrução específica, MAINTAINER que foi substituída pelo LABEL.
+      
+      ENV: Especifica variáveis de ambiente a serem utilizadas durante o build.
+      
+      ARG:  Define argumentos que poderão ser informados ao build através do parâmetro --build-arg.
+    
+      
+      Exemplo de Arquivo Dockerfile sem extensão
+         
+            FROM debian 
+            LABEL maintainer 'Daniel Tavares'
+
+            ARG S3_BUCKET=files
+            ENV S3_BUCKET=${S3_BUCKET}
+
+      
+- **docker image build -t build-exemplo .** : constroi uma imagem a partir do arquivo Dockerfile (-t define um nome para a imagem)
+- **sudo docker container run build-exemplo bash -c 'echo $S3_BUCKET'** imprime a variavel descrita no Dockerfile
+- **sudo docker image build --build-arg S3_BUCKET=myapp -t build-exemplo .** substitui o valor da variável S3_BUCKET do dockerfile
+
+
+### BUILD DE DOCKERFILE: Instruções de povoamento.
+
+
+
+## LINKS UTEIS
  
  - DOCKHUBS: https://hub.docker.com/
  - 
