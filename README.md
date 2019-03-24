@@ -191,7 +191,50 @@ precisa de uma imagem para outra operação e não consegue localiza-la no cache
 - **sudo docker image build --build-arg S3_BUCKET=myapp -t build-exemplo .** substitui o valor da variável S3_BUCKET do dockerfile
 
 
-### BUILD DE DOCKERFILE: Instruções de povoamento.
+### Construindo imagem com Dockerfile: Instruções de povoamento.
+          
+     COPY: Copia arquivos e diretórios para dentro da imagem.
+     
+     ADD: Similar ao anterior, mas com suporte extendido a URLs. Somente deve ser usado nos casos que a instrução COPY não atenda.
+     
+     RUN: Executa ações/comandos durante o build dentro da imagem.
+     
+      Exemplo de Arquivo Dockerfile sem extensão
+         
+            FROM nginx:latest 
+            LABEL maintainer 'Daniel Tavares'
+
+            RUN echo '<h1>Sem conteúdo</h1>' > /usr/share/nginx/html/conteudo.html 
+            COPY *.html /usr/share/nginx/html/  
+            
+            
+   - O RUN inclui o trecho de html no arquivo conteudo.html de dentro da imagem
+   - O COPY faz a copia dos arquivos .html do diretorio local para o diretorio html da imagem
+
+   - **docker image build -t povoamento** .
+   - **docker container run -p 80:80 povoamento** # Serviço ficará disponível em http://localhost
+
+
+
+### Construindo imagem com Dockerfile: Instruções de execução.
+      
+      EXPOSE: Informa ao Docker que a imagem expõe determinadas portas remapeadas no container. A
+      exposição da porta não é obrigatória a partir do uso do recurso de redes internas do Docker.
+      Recurso que veremos em Coordenando múltiplos containers. Porém a exposição não só ajuda a
+      documentar como permite o mapeamento rápido através do parâmetro -P do docker container run.
+      
+      WORKDIR: Indica o diretório em que o processo principal será executado.
+      
+      ENTRYPOINT: Especifica o processo inicial do container.
+      
+      CMD: Indica parâmetros para o ENTRYPOINT.
+      
+      USER: Especifica qual o usuário que será usado para execução do processo no container (ENTRYPOINT e
+      CMD) e instruções RUN durante o build.
+      
+      VOLUME: Instrui a execução do container a criar um volume para um diretório indicado e copia todo o
+      conteúdo do diretório na imagem para o volume criado. Isto simplificará no futuro, processos de
+      compartilhamento destes dados para backup por exemplo.
 
 
 
